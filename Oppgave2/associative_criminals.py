@@ -3,9 +3,8 @@
 import numpy as np
 
 # Criminals:
-# Harald [1,1,0,0] - Blåøyd, Blond, 1.90, venstrehendt, 30-40, vestlandsk, mann
-# [0,0,0,0,1,1,1,1,0,0,1,0,1,1,0,0]
-# Vigdis [0,0,1,1] - Grønnøyd, Svart, 1.60, høyrehendt, under 20, nordlandsk, kvinne
+# Harald - Blåøyd, Blond, 1.90, venstrehendt, 30-40, vestlandsk, mann
+# Vigdis - Grønnøyd, Svart, 1.60, høyrehendt, under 20, nordlandsk, kvinne
 
 
 def main():
@@ -28,14 +27,14 @@ def main():
     nodes = [0 for _ in range(size)]
     weights = [[0 for _ in range(size)] for m in range(size)]
 
-    weights = learn(size, weights, patterns)
+    weights = learn(weights, patterns)
     print(weights)
-    # print("Har du sett an kriminell? Skriv inn det du så: (hvis du ikke vet sikkert så bare tipp)")
-    # obs = get_obs(ats)
-    # inn = []
-    # for o in obs:
-    #     inn += ats[o]
-    inn = patterns[0][:]
+    print("Har du sett an kriminell? Skriv inn det du så: (hvis du ikke vet sikkert så bare tipp)")
+    obs = get_obs(ats)
+    inn = []
+    for o in obs:
+        inn += ats[o]
+
     nodes[:len(inn)] = inn
 
     for _ in range(500):
@@ -65,7 +64,7 @@ def associate(nodes, weights):
     return nodes
 
 
-def learn(size, weights, patterns):
+def learn(weights, patterns):
     for p in patterns:
         for i in range(len(p)):
             for j in range(len(p)):

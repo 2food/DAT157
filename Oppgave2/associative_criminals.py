@@ -28,7 +28,7 @@ def main():
     weights = [[0 for _ in range(size)] for m in range(size)]
 
     weights = learn(weights, patterns)
-    print(weights)
+
     print("Har du sett an kriminell? Skriv inn det du så: (hvis du ikke vet sikkert så bare tipp)")
     obs = get_obs(ats)
     inn = []

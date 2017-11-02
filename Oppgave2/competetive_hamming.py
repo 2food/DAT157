@@ -34,12 +34,11 @@ def main():
         s = sum(w)
         weights.append(list(map((lambda x: x/s), w)))
 
-    print(weights)
     for i in range(iterations):
         weights = learn(alpha, patterns[i % 4], weights, size)
 
+    print("Training with", iterations, "iterations and alpha:", alpha)
     check(patterns, weights, size)
-    print(weights)
 
 
 def compete(pattern, weights, size):

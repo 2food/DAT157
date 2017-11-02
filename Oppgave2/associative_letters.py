@@ -35,18 +35,39 @@ def main():
                 1, 1, 0, 0, 0, 0, 0, 0, 1, 1,
                 1, 1, 0, 0, 0, 0, 0, 0, 1, 1]]
 
+    names = ["T", "O", "N"]
+
     size = len(letters[0])
     weights = [[0 for _ in range(size)] for m in range(size)]
 
     weights = learn(weights, letters)
 
-    nodes = add_noise(letters[1][:], 0.1)
-    nodes = associate(nodes, weights)
+    T, O, N = 0, 1, 2
+    nodes = add_noise(letters[T][:], 10)
+
     show_pattern(nodes)
+
+    nodes = associate(100, nodes, weights)
+
+    show_pattern(nodes)
+
+    found = False
+    for i in range(len(letters)):
+        if nodes == letters[i]:
+            found = True
+            print("Output matches ", names[i], "!", sep="")
+
+    if not found:
+        print("Output does not match any letter!")
 
 
 def add_noise(pattern, degree):
-    # TODO implement this
+    indexes = np.random.randint(0, len(pattern), size=degree)
+    for i in indexes:
+        if pattern[i] == 1:
+            pattern[i] = 0
+        else:
+            pattern[i] = 1
     return pattern
 
 
@@ -55,15 +76,17 @@ def show_pattern(pattern):
         if i % 10 == 0:
             print()
         print(pattern[i], end=" ")
+    print()
 
 
-def associate(nodes, weights):
+def associate(iterations, nodes, weights):
     # går igjennom listen i tilfeldig rekkefølge
-    for i in sorted(range(len(nodes)), key=lambda k: np.random.random()):
-        if sum([n * w for (n, w) in zip(nodes, weights[i])]) >= 0:
-            nodes[i] = 1
-        else:
-            nodes[i] = 0
+    for _ in range(iterations):
+        for i in sorted(range(len(nodes)), key=lambda k: np.random.random()):
+            if sum([n * w for (n, w) in zip(nodes, weights[i])]) >= 0:
+                nodes[i] = 1
+            else:
+                nodes[i] = 0
     return nodes
 
 
